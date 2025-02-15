@@ -37,7 +37,7 @@ export const LineVerticalIcon = styled(LineVertical).attrs(({ theme }) => ({
 
 export const Title = styled.Text.attrs(() => ({
     numberOfLines: 1,
-    ellipsizeMode: 'clip'
+    ellipsizeMode: 'clip',
 }))`
     color: ${({ theme }) => theme.COLORS.GRAY_600};
     font-size: ${({ theme }) => theme.FONT_SIZE.G};

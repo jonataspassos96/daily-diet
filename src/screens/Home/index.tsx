@@ -1,7 +1,6 @@
-import { Container, Title, List, Meal } from './styles'
+import { Container, Header, Diet, Avatar, Title, List, Meal } from './styles'
 import { useState } from 'react'
 
-import { Header } from '@components/Header'
 import { MealPercentageCard } from '@components/MealPercentageCard'
 import { Button } from '@components/Button'
 import { MealCard } from '@components/MealCard'
@@ -92,12 +91,19 @@ export function Home() {
 
     return (
         <Container>
-            <Header />
-            <MealPercentageCard percentageOfMealsWithinTheDiet='90,86' />
+            <Header>
+                <Diet />
+                <Avatar />
+            </Header>
+
+            <MealPercentageCard percentageOfMealsWithinTheDiet='90,86' moveOn />
+
             <Title>
                 Refeições
             </Title>
+
             <Button title='+ Nova refeição' />
+
             <List
                 sections={meals}
                 keyExtractor={(item, index) => `${item.name}${index}`}
