@@ -1,10 +1,16 @@
-import { Container, Diet, Avatar } from "./styles"
+import { HeaderTypeStyledProps, Container, Title, ArrowLeftIcon } from './styles'
 
-export function Header() {
+type Props = {
+    color: HeaderTypeStyledProps
+}
+
+export function Header(props: Props) {
     return (
-        <Container>
-            <Diet />
-            <Avatar />
+        <Container {...props}>
+            <ArrowLeftIcon />
+            <Title>
+                Nova refeição
+            </Title>
         </Container>
     )
 }

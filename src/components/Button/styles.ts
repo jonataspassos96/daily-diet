@@ -6,7 +6,6 @@ export const Container = styled.View`
     border-radius: 6px;
     background-color: ${({ theme }) => theme.COLORS.GRAY_600};
     margin-top: 8px;
-    /* margin-bottom: 24px; */
 `
 
 export const Title = styled.Text`
