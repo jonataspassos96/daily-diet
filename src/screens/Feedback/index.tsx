@@ -1,16 +1,25 @@
 import { Button } from '@components/Button'
 import { Container, Title, Subtitle, Image } from './styles'
+import { useNavigation, useRoute } from '@react-navigation/native'
 
-type Props = {
-    isRegistered: boolean
+type RouteParams = {
+    isDiet: boolean
 }
 
-export function Feedback({ isRegistered = false }: Props) {
+export function Feedback() {
+    const navigation = useNavigation()
+    const route = useRoute()
+    const { isDiet } = route.params as RouteParams
+
+    function handleOpenHome() {
+        navigation.navigate('home')
+    }
+
     return (
         <Container>
-            <Title isRegistered={isRegistered}>
+            <Title isDiet={isDiet}>
                 {
-                    isRegistered
+                    isDiet
                         ? 'Continue assim!'
                         : 'Que pena!'
                 }
@@ -18,15 +27,15 @@ export function Feedback({ isRegistered = false }: Props) {
 
             <Subtitle>
                 {
-                    isRegistered
+                    isDiet
                         ? 'Você continua dentro da dieta. Muito bem!'
                         : 'Você saiu da dieta dessa vez, mas continue se esforçando e não desista!'
                 }
             </Subtitle>
 
-            <Image isRegistered={isRegistered} />
+            <Image isDiet={isDiet} />
 
-            <Button title='Ir para a página inicial' />
+            <Button title='Ir para a página inicial' onPress={handleOpenHome} />
         </Container>
     )
 }

@@ -1,10 +1,11 @@
 import styled from 'styled-components/native'
+import { SafeAreaView } from 'react-native-safe-area-context'
 
 type Props = {
-    isRegistered: boolean
+    isDiet: boolean
 }
 
-export const Container = styled.View`
+export const Container = styled(SafeAreaView)`
     flex: 1;
     background-color: ${({ theme }) => theme.COLORS.WHITE};
     justify-content: center;
@@ -15,7 +16,7 @@ export const Container = styled.View`
 
 export const Title = styled.Text<Props>`
     font-size: ${({ theme }) => theme.FONT_SIZE.XXG};
-    color: ${({ theme, isRegistered }) => isRegistered ? theme.COLORS.GREEN_DARK : theme.COLORS.RED_DARK};
+    color: ${({ theme, isDiet }) => isDiet ? theme.COLORS.GREEN_DARK : theme.COLORS.RED_DARK};
     text-align: center;
 `
 
@@ -26,8 +27,8 @@ export const Subtitle = styled.Text`
     margin-top: 12px;
 `
 
-export const Image = styled.Image.attrs<Props>(({ isRegistered }) => ({
-    source: isRegistered ? require('../../assets/SuccessfulRegistration.png') : require('../../assets/FailedRegistration.png')
+export const Image = styled.Image.attrs<Props>(({ isDiet }) => ({
+    source: isDiet ? require('../../assets/SuccessfulRegistration.png') : require('../../assets/FailedRegistration.png')
 }))`
     margin-top: 24px;
     margin-bottom: 24px;

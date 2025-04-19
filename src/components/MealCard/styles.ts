@@ -2,7 +2,7 @@ import styled from 'styled-components/native'
 import { LineVertical } from 'phosphor-react-native'
 
 type Props = {
-    isCompleted: boolean,
+    isDiet: boolean,
     isLast?: boolean
 }
 
@@ -11,7 +11,7 @@ export const Container = styled.View<Props>`
     align-items: center;
     justify-content: space-between;
     width: 100%;
-    margin-bottom: ${({ isLast }) => isLast ? '40px' : '8px'};
+    margin-bottom: 8px;
     padding: 14px 16px 14px 12px;
     border: 1px solid ${({ theme }) => theme.COLORS.GRAY_300};
     border-radius: 6px;
@@ -48,5 +48,5 @@ export const Circle = styled.View<Props>`
     width: 20px;
     height: 20px;
     border-radius: 50%;
-    background-color: ${({ theme, isCompleted }) => isCompleted ? theme.COLORS.GREEN_LIGHT : theme.COLORS.RED_MID};
+    background-color: ${({ theme, isDiet }) => isDiet ? theme.COLORS.GREEN_LIGHT : theme.COLORS.RED_MID};
 `

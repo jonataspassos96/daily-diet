@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import {
     Container,
     NameWrapper,
@@ -23,21 +24,37 @@ import {
 
 import { Button } from '@components/Button'
 
-export function Form() {
+type Props = {
+    setName: React.Dispatch<React.SetStateAction<string>>
+    setDescription: React.Dispatch<React.SetStateAction<string>>
+    setDate: React.Dispatch<React.SetStateAction<string>>
+    setTime: React.Dispatch<React.SetStateAction<string>>
+    setIsDiet: React.Dispatch<React.SetStateAction<boolean>>
+    createMeal: () => void
+}
+
+export function Form({ setName, setDescription, setDate, setTime, setIsDiet, createMeal }: Props) {
+    const [selectedButton, setSelectedButton] = useState<'Sim' | 'Não' | null>(null)
+
+    function changeButtonState(button: 'Sim' | 'Não') {
+        setSelectedButton(button)
+        setIsDiet(button === 'Sim')
+    }
+
     return (
         <Container>
             <NameWrapper>
                 <NameTitle>
                     Nome
                 </NameTitle>
-                <NameInput />
+                <NameInput onChangeText={setName} />
             </NameWrapper>
 
             <DescriptionWrapper>
                 <DescriptionTitle>
                     Descrição
                 </DescriptionTitle>
-                <DescriptionInput />
+                <DescriptionInput onChangeText={setDescription} />
             </DescriptionWrapper>
 
             <DateAndTimeWrapper>
@@ -45,14 +62,14 @@ export function Form() {
                     <DateTitle>
                         Data
                     </DateTitle>
-                    <DateInput />
+                    <DateInput onChangeText={setDate} />
                 </DateWrapper>
 
                 <TimeWrapper>
                     <TimeTitle>
                         Hora
                     </TimeTitle>
-                    <TimeInput />
+                    <TimeInput onChangeText={setTime} />
                 </TimeWrapper>
             </DateAndTimeWrapper>
 
@@ -62,14 +79,14 @@ export function Form() {
                 </AreYouOnADietTitle>
 
                 <ButtonWrapper>
-                    <ButtonForm>
+                    <ButtonForm onPress={() => changeButtonState('Sim')} isSelected={selectedButton === 'Sim'} isYesButton={true}>
                         <CircleButton type="PRIMARY" />
                         <TitleButton>
                             Sim
                         </TitleButton>
                     </ButtonForm>
 
-                    <ButtonForm>
+                    <ButtonForm onPress={() => changeButtonState('Não')} isSelected={selectedButton === 'Não'} isYesButton={false}>
                         <CircleButton type="SECONDARY" />
                         <TitleButton>
                             Não
@@ -78,7 +95,7 @@ export function Form() {
                 </ButtonWrapper>
             </AreYouOnADietWrapper>
 
-            <Button title='Cadastrar refeição' />
+            <Button title='Cadastrar refeição' onPress={createMeal} />
         </Container>
     )
 }

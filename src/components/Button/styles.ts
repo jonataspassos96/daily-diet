@@ -1,11 +1,14 @@
+import { TouchableOpacity } from 'react-native'
+
 import styled from 'styled-components/native'
 
-export const Container = styled.View`
+export const Container = styled(TouchableOpacity)`
     width: 100%;
     align-items: center;
     border-radius: 6px;
     background-color: ${({ theme }) => theme.COLORS.GRAY_600};
     margin-top: 8px;
+    margin-bottom: 8px;
 `
 
 export const Title = styled.Text`

@@ -4,7 +4,9 @@ import { TouchableOpacity } from 'react-native'
 export type AreYouOnADietCircleButtonButtonStyledProps = 'PRIMARY' | 'SECONDARY'
 
 type Props = {
-    type: AreYouOnADietCircleButtonButtonStyledProps
+    type?: AreYouOnADietCircleButtonButtonStyledProps
+    isSelected?: boolean
+    isYesButton?: boolean
 }
 
 export const Container = styled.View`
@@ -12,6 +14,7 @@ export const Container = styled.View`
     background-color: ${({ theme }) => theme.COLORS.WHITE};
     padding-left: 24px;
     padding-right: 24px;
+    padding-bottom: 24px;
     border-radius: 20px;
 `
 
@@ -108,13 +111,18 @@ export const ButtonWrapper = styled.View`
     margin-top: 4px;
 `
 
-export const ButtonForm = styled(TouchableOpacity)`
+export const ButtonForm = styled(TouchableOpacity) <Props>`
     flex-direction: row;
     align-items: center;
     justify-content: center;
     width: 48%;
     border-radius: 6px;
-    background-color: ${({ theme }) => theme.COLORS.GRAY_200};
+    background-color: ${({ theme, isSelected, isYesButton }) => {
+        if (isSelected) {
+            return isYesButton ? theme.COLORS.GREEN_LIGHT : theme.COLORS.RED_LIGHT;
+        }
+        return theme.COLORS.GRAY_200;
+    }};
     padding-top: 16px;
     padding-bottom: 16px;
 `

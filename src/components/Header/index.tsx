@@ -1,13 +1,24 @@
-import { HeaderTypeStyledProps, Container, Title, ArrowLeftIcon } from './styles'
+import { useNavigation } from '@react-navigation/native'
+
+import { HeaderTypeStyledProps, Container, Title, Button, ArrowLeftIcon } from './styles'
 
 type Props = {
     color: HeaderTypeStyledProps
 }
 
 export function Header(props: Props) {
+    const navigation = useNavigation()
+
+    function handlePreviousScreen() {
+        navigation.goBack()
+    }
+
     return (
         <Container {...props}>
-            <ArrowLeftIcon />
+            <Button onPress={handlePreviousScreen}>
+                <ArrowLeftIcon />
+            </Button>
+
             <Title>
                 Nova refeição
             </Title>

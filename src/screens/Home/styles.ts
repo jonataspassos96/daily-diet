@@ -1,20 +1,10 @@
 import styled from 'styled-components/native'
 import { SectionListProps } from 'react-native'
+import { SafeAreaView } from 'react-native-safe-area-context'
 
-export type Meal = {
-    title: string,
-    isFirst?: boolean,
-    data: MealData[]
-}
+import { Meal, MealDay } from '@interfaces/meal'
 
-export type MealData = {
-    time: string,
-    name: string,
-    isCompleted: boolean,
-    isLast?: true
-}
-
-export const Container = styled.View`
+export const Container = styled(SafeAreaView)`
     flex: 1;
     background-color: ${({ theme }) => theme.COLORS.GRAY_100};
     margin-left: 24px;
@@ -26,7 +16,7 @@ export const Header = styled.View`
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
-    margin-top: 66px;
+    margin-top: 36px;
 `
 
 export const Diet = styled.Image.attrs(() => ({
@@ -50,7 +40,7 @@ export const Title = styled.Text`
     font-size: ${({ theme }) => theme.FONT_SIZE.G};
 `
 
-export const List = styled.SectionList<SectionListProps<MealData, Meal>>`
+export const List = styled.SectionList<SectionListProps<Meal, MealDay>>`
     margin-top: 30px;
     padding: 5px;
     border-radius: 10px;

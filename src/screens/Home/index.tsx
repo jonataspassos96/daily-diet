@@ -1,93 +1,157 @@
-import { Container, Header, Diet, Avatar, Title, List, Meal } from './styles'
-import { useState } from 'react'
+import { Container, Header, Diet, Avatar, Title, List } from './styles'
+import { useEffect, useState } from 'react'
 
 import { MealPercentageCard } from '@components/MealPercentageCard'
 import { Button } from '@components/Button'
 import { MealCard } from '@components/MealCard'
 import { MealListTitle } from '@components/ MealListTitle'
+import { useNavigation } from '@react-navigation/native'
 
-const mealsMock: Meal[] = [
+import { getAllMealsDays as _getAllMealsDays } from '@storage/meals/getAllMealsDays'
+
+import { MealDay } from '@interfaces/meal'
+
+const mealsMock: MealDay[] = [
     {
-        title: '12.08.22',
-        isFirst: true,
-        data: [
+        date: '12.08.22',
+        meals: [
             {
                 time: '20:00',
                 name: 'X-tudo',
-                isCompleted: false
+                description: 'xablau',
+                isDiet: false
             },
             {
                 time: '16:00',
                 name: 'Whey protein com leite',
-                isCompleted: true
+                description: 'xablau',
+                isDiet: true
             },
             {
                 time: '12:30',
                 name: 'Salada cesar com frango grelhados',
-                isCompleted: true
+                description: 'xablau',
+                isDiet: true
             },
             {
                 time: '09:30',
                 name: 'Vitamina de banana com abacate',
-                isCompleted: true
+                description: 'xablau',
+                isDiet: true
             }
         ]
     },
     {
-        title: '11.08.22',
-        data: [
+        date: '11.08.22',
+        meals: [
             {
                 time: '20:00',
                 name: 'X-tudo',
-                isCompleted: false
+                description: 'xablau',
+                isDiet: false
             },
             {
                 time: '16:00',
                 name: 'Whey protein com leite',
-                isCompleted: true
+                description: 'xablau',
+                isDiet: true
             },
             {
                 time: '12:30',
                 name: 'Salada cesar com frango grelhado',
-                isCompleted: true
+                description: 'xablau',
+                isDiet: true
             },
             {
                 time: '09:30',
                 name: 'Vitamina de banana com abacate',
-                isCompleted: true
+                description: 'xablau',
+                isDiet: true
             }
         ]
     },
     {
-        title: '10.08.22',
-        data: [
+        date: '10.08.22',
+        meals: [
             {
                 time: '20:00',
                 name: 'X-tudo',
-                isCompleted: false
+                description: 'xablau',
+                isDiet: false
             },
             {
                 time: '16:00',
                 name: 'Whey protein com leite',
-                isCompleted: true
+                description: 'xablau',
+                isDiet: true
             },
             {
                 time: '12:30',
                 name: 'Salada cesar com frango grelhado',
-                isCompleted: true
+                description: 'xablau',
+                isDiet: true
             },
             {
                 time: '09:30',
                 name: 'Vitamina de banana com abacate',
-                isCompleted: true,
-                isLast: true,
+                description: 'xablau',
+                isDiet: true
             }
         ]
     }
 ]
 
 export function Home() {
-    const [meals, setMeals] = useState(mealsMock)
+    const [mealsDays, setMealsDays] = useState<MealDay[]>([])
+    const [percentageMealsWithinDiet, setPercentageMealsWithinDiet] = useState(0)
+
+    const navigation = useNavigation()
+
+    function openCreateMealMeal() {
+        navigation.navigate('createMeal')
+    }
+
+    function openStatistics() {
+        navigation.navigate('statistics', { mealsDays, percentageMealsWithinDiet })
+    }
+
+    function calculatePercentageMealsWithinDiet() {
+        const { totalMeals, mealsWithinDiet } = mealsDays.reduce(
+            (acc, day) => {
+                acc.totalMeals += day.meals.length
+                day.meals.forEach(meal => {
+                    if (meal.isDiet) {
+                        acc.mealsWithinDiet++
+                    }
+                })
+                return acc
+            },
+            { totalMeals: 0, mealsWithinDiet: 0 }
+        )
+
+        if (totalMeals === 0) {
+            setPercentageMealsWithinDiet(0)
+            return
+        }
+
+        const percentage = (mealsWithinDiet / totalMeals) * 100
+        setPercentageMealsWithinDiet(percentage)
+    }
+
+    async function getAllMealsDays() {
+        const storedMealsDays = await _getAllMealsDays()
+        setMealsDays(storedMealsDays)
+    }
+
+    useEffect(() => {
+        (async () => {
+            await getAllMealsDays()
+        })()
+    }, [])
+
+    useEffect(() => {
+        calculatePercentageMealsWithinDiet()
+    }, [mealsDays])
 
     return (
         <Container>
@@ -96,22 +160,25 @@ export function Home() {
                 <Avatar />
             </Header>
 
-            <MealPercentageCard percentageOfMealsWithinTheDiet='90,86' moveOn />
+            <MealPercentageCard openStatistics={openStatistics} percentageMealsWithinDiet={percentageMealsWithinDiet} moveOn />
 
             <Title>
                 Refeições
             </Title>
 
-            <Button title='+ Nova refeição' />
+            <Button
+                title='+ Nova refeição'
+                onPress={openCreateMealMeal}
+            />
 
             <List
-                sections={meals}
+                sections={mealsDays.map(m => ({ ...m, data: m.meals }))}
                 keyExtractor={(item, index) => `${item.name}${index}`}
                 renderItem={({ item }) => (
-                    <MealCard time={item.time} title={item.name} isCompleted={item.isCompleted} isLast={item.isLast} />
+                    <MealCard time={item.time} title={item.name} isDiet={item.isDiet} />
                 )}
-                renderSectionHeader={({ section: { title, isFirst } }) => (
-                    <MealListTitle title={title} isFirst={isFirst} />
+                renderSectionHeader={({ section: { date } }) => (
+                    <MealListTitle date={date} />
                 )}
             />
         </Container>

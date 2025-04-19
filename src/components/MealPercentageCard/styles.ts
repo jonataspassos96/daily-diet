@@ -1,15 +1,16 @@
 import styled from 'styled-components/native'
+import { TouchableOpacity } from 'react-native'
 import { ArrowUpRight, ArrowLeft } from 'phosphor-react-native'
 
 type MealPercentageCardStyledProps = {
-    isPercentageAboveIdeal: boolean
+    percentageIsAboveIdeal: () => boolean
 }
 
 export const Container = styled.View<MealPercentageCardStyledProps>`
     width: 100%;
     align-items: center;
     margin-top: 36px;
-    background-color: ${({ theme, isPercentageAboveIdeal }) => isPercentageAboveIdeal ? theme.COLORS.GREEN_LIGHT : theme.COLORS.RED_LIGHT};
+    background-color: ${({ theme, percentageIsAboveIdeal }) => percentageIsAboveIdeal() ? theme.COLORS.GREEN_LIGHT : theme.COLORS.RED_LIGHT};
     border-radius: 8px;
     position: relative;
 `
@@ -27,20 +28,24 @@ export const Subtitle = styled.Text`
     margin-bottom: 16px;
 `
 
-export const ArrowUpRightIcon = styled(ArrowUpRight).attrs<MealPercentageCardStyledProps>(({ theme, isPercentageAboveIdeal }) => ({
-    size: 34,
-    color: isPercentageAboveIdeal ? theme.COLORS.GREEN_DARK : theme.COLORS.RED_DARK,
-}))`
+export const WrapperArrowUpRightIcon = styled(TouchableOpacity)`
     position: absolute;
     bottom: 60;
     right: 5;
 `
 
-export const ArrowLeftIcon = styled(ArrowLeft).attrs<MealPercentageCardStyledProps>(({ theme, isPercentageAboveIdeal }) => ({
+export const ArrowUpRightIcon = styled(ArrowUpRight).attrs<MealPercentageCardStyledProps>(({ theme, percentageIsAboveIdeal }) => ({
     size: 34,
-    color: isPercentageAboveIdeal ? theme.COLORS.GREEN_DARK : theme.COLORS.RED_DARK,
-}))`
+    color: percentageIsAboveIdeal() ? theme.COLORS.GREEN_DARK : theme.COLORS.RED_DARK,
+}))``
+
+export const WrapperArrowLeftIcon = styled(TouchableOpacity)`
     position: absolute;
     bottom: 60;
     right: 335;
 `
+
+export const ArrowLeftIcon = styled(ArrowLeft).attrs<MealPercentageCardStyledProps>(({ theme, percentageIsAboveIdeal }) => ({
+    size: 34,
+    color: percentageIsAboveIdeal() ? theme.COLORS.GREEN_DARK : theme.COLORS.RED_DARK,
+}))``

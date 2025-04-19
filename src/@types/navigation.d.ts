@@ -1,10 +1,16 @@
+import { MealDay } from "@interfaces/meal";
+
 export declare global {
     namespace ReactNavigation {
         interface RootParamList {
-            groups: undefined;
-            new: undefined;
-            players: {
-                group: string;
+            home: undefined;
+            feedback: {
+                isDiet: boolean;
+            };
+            createMeal: undefined;
+            statistics: {
+                mealsDays: MealDay[];
+                percentageMealsWithinDiet: number;
             }
         }
     }

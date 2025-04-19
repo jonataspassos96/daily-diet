@@ -1,3 +1,9 @@
+import { useEffect, useState } from 'react'
+
+import { MealDay } from '@interfaces/meal'
+
+import { useNavigation, useRoute } from '@react-navigation/native'
+
 import {
     Container,
     StatisticsContainer,
@@ -11,10 +17,59 @@ import {
 
 import { MealPercentageCard } from '@components/MealPercentageCard'
 
+type RouteParams = {
+    mealsDays: MealDay[]
+    percentageMealsWithinDiet: number
+}
+
 export function Statistics() {
+    const [bestSequenceMealsWithinDiet, setBestSequenceMealsWithinDiet] = useState(0)
+    const [totalMeals, setTotalMeals] = useState(0)
+    const [mealsWithinDiet, setMealsWithinDiet] = useState(0)
+    const [offDietMeals, setOffDietMeals] = useState(0)
+
+    const navigation = useNavigation()
+    const route = useRoute()
+    const { mealsDays, percentageMealsWithinDiet } = route.params as RouteParams
+
+    function calculateGeneralStatistics() {
+        let currentSequence = 0
+        let bestSequence = 0
+        const { totalMeals, mealsWithinDiet, offDietMeals } = mealsDays.reduce(
+            (acc, day) => {
+                acc.totalMeals += day.meals.length
+                day.meals.forEach(meal => {
+                    if (meal.isDiet) {
+                        acc.mealsWithinDiet++
+                        currentSequence++
+
+                        if (bestSequence < currentSequence) {
+                            bestSequence = currentSequence
+                        }
+                    } else {
+                        acc.offDietMeals++
+                        currentSequence = 0
+                    }
+                })
+
+                return acc
+            },
+            { totalMeals: 0, mealsWithinDiet: 0, offDietMeals: 0 }
+        )
+
+        setTotalMeals(totalMeals)
+        setMealsWithinDiet(mealsWithinDiet)
+        setOffDietMeals(offDietMeals)
+        setBestSequenceMealsWithinDiet(bestSequence)
+    }
+
+    useEffect(() => {
+        calculateGeneralStatistics()
+    }, [])
+
     return (
         <Container>
-            <MealPercentageCard percentageOfMealsWithinTheDiet='90,86' isPercentageAboveIdeal />
+            <MealPercentageCard percentageMealsWithinDiet={percentageMealsWithinDiet} />
 
             <StatisticsContainer>
                 <ScreenTitle>
@@ -23,7 +78,7 @@ export function Statistics() {
 
                 <CardLarge>
                     <CardTitle>
-                        22
+                        {bestSequenceMealsWithinDiet}
                     </CardTitle>
 
                     <CardDescription>
@@ -33,7 +88,7 @@ export function Statistics() {
 
                 <CardLarge>
                     <CardTitle>
-                        109
+                        {totalMeals}
                     </CardTitle>
 
                     <CardDescription>
@@ -44,7 +99,7 @@ export function Statistics() {
                 <CardsSmallWrapper>
                     <CardSmall isGreen>
                         <CardTitle>
-                            99
+                            {mealsWithinDiet}
                         </CardTitle>
 
                         <CardDescription>
@@ -54,7 +109,7 @@ export function Statistics() {
 
                     <CardSmall isGreen={false}>
                         <CardTitle>
-                            10
+                            {offDietMeals}
                         </CardTitle>
 
                         <CardDescription>

@@ -3,13 +3,12 @@ import { Container, Wrapper, Time, LineVerticalIcon, Title, Circle } from './sty
 type Props = {
     time: string,
     title: string,
-    isCompleted: boolean,
-    isLast?: boolean
+    isDiet: boolean
 }
 
-export function MealCard({ time, title, isCompleted, isLast }: Props) {
+export function MealCard({ time, title, isDiet }: Props) {
     return (
-        <Container isCompleted={isCompleted} isLast={isLast}>
+        <Container isDiet={isDiet}>
             <Wrapper>
                 <Time>
                     {time}
@@ -22,7 +21,7 @@ export function MealCard({ time, title, isCompleted, isLast }: Props) {
                 </Title>
             </Wrapper>
 
-            <Circle isCompleted={isCompleted} />
+            <Circle isDiet={isDiet} />
         </Container>
     )
 }

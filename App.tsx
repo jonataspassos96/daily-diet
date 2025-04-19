@@ -5,10 +5,7 @@ import { useFonts, NunitoSans_400Regular, NunitoSans_700Bold } from '@expo-googl
 
 import theme from './src/theme'
 
-import { Home } from '@screens/Home'
-import { Statistics } from '@screens/Statistics'
-import { RegisterMeal } from '@screens/ RegisterMeal'
-import { Feedback } from '@screens/Feedback';
+import { Routes } from 'src/routes'
 
 import Loading from '@components/Loading';
 
@@ -23,7 +20,7 @@ export default function App() {
         translucent
       />
       <GestureHandlerRootView>
-        {fontsLoaded ? <Feedback /> : <Loading />}
+        {fontsLoaded ? <Routes /> : <Loading />}
       </GestureHandlerRootView>
     </ThemeProvider>
   )

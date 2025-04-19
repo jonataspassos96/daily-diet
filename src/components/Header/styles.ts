@@ -1,5 +1,6 @@
-import styled from 'styled-components/native'
+import { TouchableOpacity } from 'react-native';
 import { ArrowLeft } from 'phosphor-react-native'
+import styled from 'styled-components/native'
 
 export type HeaderTypeStyledProps = 'GRAY' | 'GREEN' | 'RED'
 
@@ -35,11 +36,14 @@ export const Title = styled.Text`
     font-weight: bold;
 `
 
+export const Button = styled(TouchableOpacity)`
+    position: absolute;
+    right: 345;
+`
+
 export const ArrowLeftIcon = styled(ArrowLeft).attrs(({ theme }) => ({
     size: 24,
     color: theme.COLORS.GRAY_700,
 }))`
-    position: absolute;
-    right: 345;
     font-weight: bold;
 `

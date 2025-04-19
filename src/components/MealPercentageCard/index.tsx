@@ -1,21 +1,41 @@
-import { Container, Title, Subtitle, ArrowUpRightIcon, ArrowLeftIcon } from './styles'
+import { useNavigation } from '@react-navigation/native'
+
+import {
+    Container,
+    Title,
+    Subtitle,
+    WrapperArrowUpRightIcon,
+    ArrowUpRightIcon,
+    WrapperArrowLeftIcon,
+    ArrowLeftIcon
+} from './styles'
 
 type Props = {
-    percentageOfMealsWithinTheDiet: string,
-    moveOn?: boolean,
-    isPercentageAboveIdeal?: boolean
+    openStatistics?: () => void,
+    percentageMealsWithinDiet: number,
+    moveOn?: boolean
 }
 
-export function MealPercentageCard({ percentageOfMealsWithinTheDiet, moveOn = false, isPercentageAboveIdeal = false }: Props) {
+export function MealPercentageCard({ openStatistics, percentageMealsWithinDiet, moveOn = false }: Props) {
+    const navigation = useNavigation()
+
+    function handlePreviousScreen() {
+        navigation.goBack()
+    }
+
+    function percentageIsAboveIdeal() {
+        return percentageMealsWithinDiet > 50
+    }
+
     return (
-        <Container isPercentageAboveIdeal={isPercentageAboveIdeal}>
+        <Container percentageIsAboveIdeal={percentageIsAboveIdeal}>
             <Title>
-                {percentageOfMealsWithinTheDiet}%
+                {percentageMealsWithinDiet.toFixed(2)}%
             </Title>
             {
                 moveOn
-                    ? <ArrowUpRightIcon isPercentageAboveIdeal={isPercentageAboveIdeal} />
-                    : <ArrowLeftIcon isPercentageAboveIdeal={isPercentageAboveIdeal} />
+                    ? <WrapperArrowUpRightIcon onPress={openStatistics}><ArrowUpRightIcon percentageIsAboveIdeal={percentageIsAboveIdeal} /></WrapperArrowUpRightIcon>
+                    : <WrapperArrowLeftIcon onPress={handlePreviousScreen}><ArrowLeftIcon percentageIsAboveIdeal={percentageIsAboveIdeal} /></WrapperArrowLeftIcon>
             }
             <Subtitle>
                 das refeições dentro da dieta

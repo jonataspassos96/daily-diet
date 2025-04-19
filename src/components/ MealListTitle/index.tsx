@@ -1,15 +1,14 @@
 import { Container, Title } from './styles'
 
 type Props = {
-    title: string,
-    isFirst?: boolean
+    date: string
 }
 
-export function MealListTitle({ title, isFirst }: Props) {
+export function MealListTitle({ date }: Props) {
     return (
-        <Container isFirst={isFirst}>
+        <Container>
             <Title>
-                {title}
+                {date}
             </Title>
         </Container>
     )
