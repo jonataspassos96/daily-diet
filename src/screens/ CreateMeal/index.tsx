@@ -23,7 +23,7 @@ export function CreateMeal() {
             await _createMeal({ name, description, date, time, isDiet })
             openFeedback()
         } catch (error) {
-            console.log('Error ao cadastrar uma refeição', error)
+            console.log('Erro ao cadastrar uma refeição', error)
         }
     }
 
@@ -33,7 +33,7 @@ export function CreateMeal() {
 
     return (
         <Container>
-            <Header color='GRAY' />
+            <Header title='Nova refeição' color='GRAY' />
             <ScrollView>
                 <Form
                     setName={setName}

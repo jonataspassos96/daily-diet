@@ -11,6 +11,13 @@ export declare global {
             statistics: {
                 mealsDays: MealDay[];
                 percentageMealsWithinDiet: number;
+            },
+            meal: {
+                name: string;
+                description: string;
+                date: string;
+                time: string;
+                withinTheDiet: boolean
             }
         }
     }

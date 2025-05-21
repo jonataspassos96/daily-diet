@@ -115,6 +115,18 @@ export function Home() {
         navigation.navigate('statistics', { mealsDays, percentageMealsWithinDiet })
     }
 
+    type OpenMealParams = {
+        date: string
+        name: string
+        description: string
+        time: string
+        withinTheDiet: boolean
+    }
+
+    function openMeal({ date, name, description, time, withinTheDiet }: OpenMealParams) {
+        navigation.navigate('meal', { date, name, description, time, withinTheDiet })
+    }
+
     function calculatePercentageMealsWithinDiet() {
         const { totalMeals, mealsWithinDiet } = mealsDays.reduce(
             (acc, day) => {
@@ -174,8 +186,19 @@ export function Home() {
             <List
                 sections={mealsDays.map(m => ({ ...m, data: m.meals }))}
                 keyExtractor={(item, index) => `${item.name}${index}`}
-                renderItem={({ item }) => (
-                    <MealCard time={item.time} title={item.name} isDiet={item.isDiet} />
+                renderItem={({ section, item }) => (
+                    <MealCard
+                        time={item.time}
+                        title={item.name}
+                        isDiet={item.isDiet}
+                        openMeal={() => openMeal({
+                            date: section.date,
+                            name: item.name,
+                            description: item.description,
+                            time: item.time,
+                            withinTheDiet: item.isDiet
+                        })}
+                    />
                 )}
                 renderSectionHeader={({ section: { date } }) => (
                     <MealListTitle date={date} />

@@ -1,5 +1,6 @@
 import styled from 'styled-components/native'
 import { LineVertical } from 'phosphor-react-native'
+import { TouchableOpacity } from 'react-native'
 
 type Props = {
     isDiet: boolean,
@@ -18,7 +19,7 @@ export const Container = styled.View<Props>`
     background-color: ${({ theme }) => theme.COLORS.WHITE};
 `
 
-export const Wrapper = styled.View`
+export const Wrapper = styled(TouchableOpacity)`
     flex-direction: row;
     align-items: center;
     max-width: 75%;

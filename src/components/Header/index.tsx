@@ -4,9 +4,10 @@ import { HeaderTypeStyledProps, Container, Title, Button, ArrowLeftIcon } from '
 
 type Props = {
     color: HeaderTypeStyledProps
+    title: string
 }
 
-export function Header(props: Props) {
+export function Header({ color, title }: Props) {
     const navigation = useNavigation()
 
     function handlePreviousScreen() {
@@ -14,13 +15,13 @@ export function Header(props: Props) {
     }
 
     return (
-        <Container {...props}>
+        <Container color={color}>
             <Button onPress={handlePreviousScreen}>
                 <ArrowLeftIcon />
             </Button>
 
             <Title>
-                Nova refeição
+                {title}
             </Title>
         </Container>
     )

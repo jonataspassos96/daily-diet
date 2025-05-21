@@ -3,13 +3,14 @@ import { Container, Wrapper, Time, LineVerticalIcon, Title, Circle } from './sty
 type Props = {
     time: string,
     title: string,
-    isDiet: boolean
+    isDiet: boolean,
+    openMeal: () => void
 }
 
-export function MealCard({ time, title, isDiet }: Props) {
+export function MealCard({ time, title, isDiet, openMeal }: Props) {
     return (
         <Container isDiet={isDiet}>
-            <Wrapper>
+            <Wrapper onPress={openMeal}>
                 <Time>
                     {time}
                 </Time>
